@@ -6,6 +6,6 @@ module.exports = router => {
     router.get('/user/:id', userController.getOneUser);
     router.put('/user', userController.updateUser);
     router.delete('/user/:id', userController.deleteUser);
-    
+
     return router;
 };

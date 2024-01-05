@@ -15,7 +15,11 @@ class PostController {
     }
     async createPost(req, res) {
         const { user_id, title, content } = req.body;
-        const newPost = await db.query('INSERT INTO post (person_id, title, content) VALUES ($1, $2, $3) RETURNING *', [user_id, title, content]);
+        const newPost = await db.query('INSERT INTO post (person_id, title, content) VALUES ($1, $2, $3) RETURNING *', [
+            user_id,
+            title,
+            content
+        ]);
         res.json(newPost?.rows?.[0]);
     }
     async updatePost(req, res) {
