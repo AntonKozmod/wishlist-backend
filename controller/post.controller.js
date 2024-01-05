@@ -11,6 +11,7 @@ class PostController {
         res.json(posts?.rows ?? []);
     };
     getFriendsPosts = async (req, res) => {
+        console.log('______________');
         console.log('getFriendsPosts', req);
         // todo Реализовать получение постов друзей
         const posts = await db.query('SELECT * FROM post');
