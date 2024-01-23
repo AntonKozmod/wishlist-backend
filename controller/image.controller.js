@@ -11,7 +11,6 @@ class PostController {
         const posts = await db.query('SELECT * FROM image WHERE person_id = $1 OR post_id = $2', [user_id, post_id]);
         res.status(200).json(posts?.rows ?? []);
     };
-
     getOneImage = async (req, res) => {
         const { id } = req.params;
 
