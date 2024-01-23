@@ -1,4 +1,5 @@
 const db = require('../db');
+const path = require('path');
 
 class PostController {
     getImages = async (req, res) => {
@@ -24,6 +25,34 @@ class PostController {
         }
     };
     createImage = async (req, res) => {
+        try {
+            if (!req.files?.length) throw new Error('No file uploaded');
+
+            const { file } = req.files;
+            const filename = encodeURI(Date.now() + '-' + file.name);
+
+            const filepath = path.join('uploads', 'images', filename);
+
+            file.mv(path.join(__dirname, filepath), err => {
+                if (err) res.status(500).json({ internal_error: err });
+
+                this.saveImagePath(
+                    {
+                        ...req,
+                        body: {
+                            ...req.body,
+                            file_name: filename,
+                            file_path: filepath
+                        }
+                    },
+                    res
+                );
+            });
+        } catch (ex) {
+            res.status(400).json({ Error: ex });
+        }
+    };
+    saveImagePath = async (req, res) => {
         const { file_name, file_path, person_id, post_id } = req.body;
 
         try {
